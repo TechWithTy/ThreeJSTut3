@@ -12,7 +12,11 @@ const canvas = document.querySelector('canvas.webgl');
 const scene = new THREE.Scene();
 
 // Objects
-const geometry = new THREE.TorusGeometry(0.7, 0.2, 16, 100);
+
+const earthTexture = new THREE.TextureLoader().load('./earth_texture.jpg');
+const earthNormal = new THREE.TextureLoader().load('./earth_normal.jpg');
+
+const geometry = new THREE.SphereGeometry(0.5, 64, 64);
 
 const particlesGeometry = new THREE.BufferGeometry();
 const particlesCnt = 5000;
@@ -42,18 +46,26 @@ const particlesMaterial = new THREE.PointsMaterial({
 });
 
 // Mesh
-const sphere = new THREE.Points(geometry, material);
+const sphere = new THREE.Mesh(
+  geometry,
+  new THREE.MeshStandardMaterial({
+    map: earthTexture,
+    normalMap: earthNormal,
+  })
+);
 const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
 
 scene.add(sphere, particlesMesh);
 
 // Lights
 
-const pointLight = new THREE.PointLight(0xffffff, 0.1);
-pointLight.position.x = 2;
-pointLight.position.y = 3;
-pointLight.position.z = 4;
-scene.add(pointLight);
+const pointLight = new THREE.PointLight(0xffffff, 1);
+const lightHelper = new THREE.PointLightHelper(pointLight);
+
+pointLight.position.set(5, 5, 5);
+scene.add(pointLight, lightHelper);
+
+
 
 /**
  * Sizes
