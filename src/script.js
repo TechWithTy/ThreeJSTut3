@@ -11,10 +11,15 @@ const canvas = document.querySelector('canvas.webgl');
 // Scene
 const scene = new THREE.Scene();
 
-// Objects
+// Textures
 
 const earthTexture = new THREE.TextureLoader().load('./earth_texture.jpg');
 const earthNormal = new THREE.TextureLoader().load('./earth_normal.jpg');
+const starTexture = new THREE.TextureLoader().load('./diamond_texture.jpg');
+
+// Objects
+
+
 
 const geometry = new THREE.SphereGeometry(0.5, 64, 64);
 
@@ -41,7 +46,8 @@ const material = new THREE.PointsMaterial({
 });
 const particlesMaterial = new THREE.PointsMaterial({
   size: 0.005,
-  color: 'red',
+  map: starTexture,
+ 
   transparent: true,
 });
 
@@ -56,6 +62,8 @@ const sphere = new THREE.Mesh(
 const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
 
 scene.add(sphere, particlesMesh);
+
+// gui.add(sphere)
 
 // Lights
 
